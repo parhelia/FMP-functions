@@ -1,0 +1,15 @@
+/* MonthNumberFromMonthName( name ) */
+Case(
+	name = "January"; 1;
+	name = "February"; 2;
+	name = "March"; 3;
+	name = "April"; 4;
+	name = "May"; 5;
+	name = "June"; 6;
+	name = "July"; 7;
+	name = "August"; 8;
+	name = "September"; 9;
+	name = "October"; 10;
+	name = "November"; 11;
+	name = "December"; 12
+)
