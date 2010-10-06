@@ -1,0 +1,8 @@
+/* CalcWeekly( base_date; day_of_week; week_offset ) */
+Let( $dow = DayNumberFromDayName( day_of_week );
+	If( week_offset = 1;
+	    If( $dow > DayOfWeek( base_date ); 
+	    	base_date + $dow - DayOfWeek( base_date ); 
+	    base_date + 7 + $dow - DayOfWeek( base_date ) );
+	( ( $dow - DayOfWeek( base_date ) )  ) + 7 * week_offset  + base_date )
+)

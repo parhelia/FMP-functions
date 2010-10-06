@@ -1,0 +1,2 @@
+/* CalcDaily ( base_date; days_offset ) */
+base_date + days_offset

@@ -1,0 +1,19 @@
+/* CalcMonthlyDayXofEveryXMonths( base_date; specific_day; month_offset */
+Let ( $td = Date( Month( base_date ) + month_offset; 1; Year( base_date ) );
+	Case(
+		Month( $td ) = 2;
+			If( specific_day > 28;
+				Case(
+					Mod( Year( base_date ); 4 ) = 0; Date( Month( base_date ) + month_offset; 29; Year( base_date ) );
+					Mod( Year( base_date ); 4 ) ≠ 0; Date( Month( base_date ) + month_offset; 28; Year( base_date ) )
+				); 
+			Date( Month( base_date ) + month_offset; specific_day; Year( base_date ) ));
+
+		Month( $td ) = 4 or Month( $td ) = 6 or Month( $td ) = 9 or Month( $td ) = 11;
+			If( specific_day > 30;
+				Date( Month( base_date ) + month_offset; 30; Year( base_date ) );
+			Date( Month( base_date ) + month_offset; specific_day; Year( base_date ) ));
+		/* default */
+		Date( Month( base_date ) + month_offset; specific_day; Year( base_date ) )
+             )
+)

@@ -1,0 +1,72 @@
+/* CalcMonthlyOrdinalDayTypeofEveryXMonths( base_date; ordinal; day_type; month_offset ) */
+If( day_type = "day";
+	Case(
+		ordinal = "first"; Date( Month( base_date ) + month_offset; 1; Year( base_date ) );
+		ordinal = "second"; Date( Month( base_date ) + month_offset; 2; Year( base_date ) );
+		ordinal = "third"; Date( Month( base_date ) + month_offset; 3; Year( base_date ) );
+		ordinal = "fourth"; Date( Month( base_date ) + month_offset; 4; Year( base_date ) );
+		ordinal = "last";  CalcMonthlyDayXofEveryXMonths( base_date; 31; month_offset ) /* last day of the month */
+	);
+
+	Case(
+		ordinal = "first";
+			If( DayName( Date( Month( base_date ) + month_offset; 1; Year( base_date ) ) ) = day_type;
+				Date( Month( base_date ) + month_offset; 1 ; Year( base_date ) );
+			CalcWeekly( Date( Month( base_date ) + month_offset; 1; Year( base_date ) ); day_type; 1 ) );
+		ordinal = "second";
+			If( DayName( Date( Month( base_date ) + month_offset; 1; Year( base_date ) ) ) = day_type;
+				Date( Month( base_date ) + month_offset; 8 ; Year( base_date ) );
+			CalcWeekly( Date( Month( base_date ) + month_offset; 8; Year( base_date ) ); day_type; 1 ) );
+		ordinal = "third";
+			If( DayName( Date( Month( base_date ) + month_offset; 1; Year( base_date ) ) ) = day_type;
+				Date( Month( base_date ) + month_offset; 15 ; Year( base_date ) );
+			CalcWeekly( Date( Month( base_date ) + month_offset; 15; Year( base_date ) ); day_type; 1 ) );
+		ordinal = "fourth";
+			If( DayName( Date( Month( base_date ) + month_offset; 1; Year( base_date ) ) ) = day_type;
+				Date( Month( base_date ) + month_offset; 22 ; Year( base_date ) );
+			CalcWeekly( Date( Month( base_date ) + month_offset; 22; Year( base_date ) ); day_type; 1 ) );
+		ordinal = "last";
+			Let(
+				$pdate = Date( Month( base_date ) + month_offset; 1; Year( base_date ) );
+				Let( $dow = DayNumberFromDayName( day_type );
+			
+			Case(
+				Month( $pdate ) = 1 or Month( $pdate ) = 3 or Month( $pdate ) = 5 or Month( $pdate ) = 7 or Month( $pdate ) = 8 or Month( $pdate ) = 10 or Month( $pdate ) = 12; /* 31 days */				Let( $last_day = Date( Month( $pdate ); 31; Year( $pdate ) ); 
+				Case(
+				DayOfWeek( $last_day ) > $dow; Date( Month( $last_day ); 31 - DayOfWeek( $last_day ) + $dow; Year( $pdate ) ); /* OK */
+				DayOfWeek( $last_day ) < $dow; Date( Month( $last_day ); 24 + $dow - DayOfWeek( $last_day ); Year( $pdate ) ); /* OK */
+				DayOfWeek( $last_day ) = $dow; Date( Month( $last_day ); Day( $last_day ); Year( $last_day ) ); /* OK */
+				) /*end Case */ ); /* end Let */
+				
+				Month( $pdate ) = 4 or Month( $pdate ) = 6 or Month( $pdate ) = 9 or Month( $pdate ) = 11; /* 30 days */
+				Let( $last_day = Date( Month( $pdate ); 30; Year( $pdate ) );
+				Case(
+				DayOfWeek( $last_day ) > $dow; Date( Month( $last_day ) ; 30 - DayOfWeek( $last_day ) + $dow; Year( $pdate ) ); /* OK */
+				DayOfWeek( $last_day ) < $dow; Date( Month( $last_day ) ; 23 + $dow - DayOfWeek( $last_day ); Year( $pdate ) ); /* OK */
+				DayOfWeek( $last_day ) = $dow; Date( Month( $last_day ); Day( $last_day ); Year( $last_day ) ); /* OK */
+				) );
+
+				Month( $pdate ) = 2; /* 28 or 29 days */
+				Case(
+					Mod( Year( $pdate ); 4 ) ≠ 0; /* non-leap year */
+						Let( $last_day = Date( Month( $pdate ); 28; Year( $pdate ) );
+						Case(
+						DayOfWeek( $last_day ) > $dow; Date( Month( $last_day ); 28 - DayOfWeek( $last_day ) + $dow; Year( $pdate ) );
+						DayOfWeek( $last_day ) < $dow; Date( Month( $last_day ); 21 + $dow - DayOfWeek( $last_day ); Year( $pdate ) );
+						DayOfWeek( $last_day ) = $dow; Date( Month( $last_day ); Day( $last_day ); Year( $last_day ) );
+						)
+					);
+					Mod( Year( $pdate );  4 ) = 0; /* leap year */ 
+						Let( $last_day = Date( Month( $pdate ); 29; Year( $pdate ) );
+						Case(
+						DayOfWeek( $last_day ) > $dow; Date( Month( $last_day ); 29 - DayOfWeek( $last_day ) + $dow; Year( $pdate ) );
+						DayOfWeek( $last_day ) < $dow; Date( Month( $last_day ); 22 + $dow - DayOfWeek( $last_day ); Year( $pdate ) );
+						DayOfWeek( $last_day ) = $dow; Date( Month( $last_day ); Day( $last_day ); Year( $last_day ) );
+						)
+					);
+				)
+		
+			)
+		) )
+	)
+)/* end if */

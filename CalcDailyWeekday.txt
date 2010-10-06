@@ -1,0 +1,7 @@
+/* CalcDailyWeekday( base_date ) */
+If(
+	DayOfWeek( base_date ) = 6; base_date + 3;
+	If (
+		DayOfWeek( base_date ) = 7; base_date + 2; base_date + 1
+	)
+)

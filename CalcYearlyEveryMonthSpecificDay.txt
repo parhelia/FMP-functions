@@ -1,0 +1,7 @@
+/* CalcYearlyEveryMonthSpecificDay( month_name; specific_day ) */
+Let( $d = Get( CurrentDate );
+	Let( $m = MonthNumberFromMonthName( month_name );
+	If( $d > Date( $m; specific_day; Year( $d ) );
+		Date( $m; specific_day; Year( $d ) + 1 ); /* increment year for next year's schedule */
+	Date( $m; specific_day; Year( $d ) ) ) )
+) /* end Let */

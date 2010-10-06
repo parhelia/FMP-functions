@@ -1,0 +1,10 @@
+/* DayNumberFromDayName ( day_name ) */
+Case(
+	day_name = "Sunday"; 1;
+	day_name = "Monday"; 2;
+	day_name = "Tuesday"; 3;
+	day_name = "Wednesday"; 4;
+	day_name = "Thursday"; 5;
+	day_name = "Friday"; 6;
+	day_name = "Saturday"; 7;
+)
